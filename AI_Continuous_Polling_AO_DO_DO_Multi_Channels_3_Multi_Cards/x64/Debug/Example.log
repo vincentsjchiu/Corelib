@@ -1,0 +1,3 @@
+﻿  Example.cpp
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_3_Multi_Cards\Example.cpp(216,43): warning C4018: '<': signed/unsigned 不相符
+  Example.vcxproj -> C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_3_Multi_Cards\x64\Debug\Example.exe

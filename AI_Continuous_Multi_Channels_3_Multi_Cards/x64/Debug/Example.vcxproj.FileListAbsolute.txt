@@ -1,0 +1,4 @@
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_AsyncOneshot_Multi_Channels\x64\Debug\Example.exe
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_AsyncOneshot_Multi_Channels_Multi_Cards\x64\Debug\Example.exe
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_AsyncOneshot_Multi_Channels_3_Multi_Cards\x64\Debug\Example.exe
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Continuous_Multi_Channels_3_Multi_Cards\x64\Debug\Example.exe
