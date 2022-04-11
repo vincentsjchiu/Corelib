@@ -1,0 +1,8 @@
+﻿  Example.cpp
+D:\Dell Backup\Corelib\MCM_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_2_Same_Multi_Cards\Example.cpp(65,41): warning C4101: 'aoTask2': 未參考的區域變數
+D:\Dell Backup\Corelib\MCM_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_2_Same_Multi_Cards\Example.cpp(62,40): warning C4101: 'diTask2': 未參考的區域變數
+D:\Dell Backup\Corelib\MCM_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_2_Same_Multi_Cards\Example.cpp(63,41): warning C4101: 'doTask2': 未參考的區域變數
+D:\Dell Backup\Corelib\MCM_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_2_Same_Multi_Cards\Example.cpp(61,38): warning C4101: 'aiTask2': 未參考的區域變數
+D:\Dell Backup\Corelib\MCM_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_2_Same_Multi_Cards\Example.cpp(64,34): warning C4101: 'dev2': 未參考的區域變數
+D:\Dell Backup\Corelib\MCM_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_2_Same_Multi_Cards\Example.cpp(216,43): warning C4018: '<': signed/unsigned 不相符
+  Example.vcxproj -> D:\Dell Backup\Corelib\MCM_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_2_Same_Multi_Cards\x64\Debug\Example.exe

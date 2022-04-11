@@ -1,0 +1,2 @@
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_MultiCards\x64\Debug\Example.exe
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\x64\Debug\Example.exe

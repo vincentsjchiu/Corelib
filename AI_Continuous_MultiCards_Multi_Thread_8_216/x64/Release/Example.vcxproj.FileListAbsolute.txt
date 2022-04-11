@@ -1,0 +1,2 @@
+C:\ADLINK\Corelib\Samples\AI_MultiCards\x64\Release\Example.exe
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Continuous_MultiCards_Multi_Thread\x64\Release\Example.exe

@@ -1,0 +1,1 @@
+C:\ADLINK\Corelib\Samples\AI_MultiCards\x64\Debug\Example.exe

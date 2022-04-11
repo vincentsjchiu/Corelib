@@ -1,0 +1,12 @@
+channelCount-4
+CH-0
+channelCount-4
+CH-1
+channelCount-4
+CH-2
+channelCount-4
+CH-3
+channelCount-8
+CH-0
+channelCount-8
+CH-1
