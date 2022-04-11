@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_3_Multi_Cards\x64\Debug\Example.exe</FullPath>
+      <FullPath>D:\Dell Backup\Corelib\MCM_User_Test\AI_Continuous_Polling_AO_DO_DO_Multi_Channels_3_Multi_Cards\x64\Debug\Example.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

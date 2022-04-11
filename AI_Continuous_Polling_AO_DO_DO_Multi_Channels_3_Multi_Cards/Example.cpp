@@ -150,12 +150,12 @@ int main(int argc, char* argv[])
 
             // Stop acquisition task.
             aiTask0->asyncStop();
-           /* aiTask1->asyncStop();
-            aiTask2->asyncStop();*/
+            aiTask1->asyncStop();
+            aiTask2->asyncStop();
 
             fp[0].close();
-            /*fp[1].close();
-            fp[2].close();*/
+            fp[1].close();
+            fp[2].close();
     }
     catch (const char* msg)
     {
