@@ -43,15 +43,17 @@ Log:  Inital version
 
 #define DEVICE_MAX          10
 #define FILE_NAME_MAX       128
-
-void AI_AsyncOneshot_Raw_Data(I_AITask* aiTask, int devIndex,double samplerate,uint32_t samplecount);
+#define Loop 5
+void AI_AsyncOneshot_Raw_Data(I_AITask* aiTask, int devIndex, double samplerate, uint32_t samplecount, uint32_t loopindex);
 void ThreadRoutine(int devIndex, const char* aliasName);
-void DataProcess(I_AITask* aiTask, int Device);
-char filename[DEVICE_MAX][FILE_NAME_MAX];
-fstream fp[DEVICE_MAX];
+void DataProcess(I_AITask* aiTask, int Device, uint32_t loopindex, uint32_t samplecount);
+void AO_Static(I_AOTask* aoTask);
+char filename[DEVICE_MAX][FILE_NAME_MAX],pfilename[DEVICE_MAX][FILE_NAME_MAX];
 
+
+fstream fp[DEVICE_MAX],fperform[DEVICE_MAX];
 std::thread th[DEVICE_MAX];
-
+vector<ST_DEV_LIST*> stDev;
 
 int main(int argc, char* argv[])
 {
@@ -59,7 +61,7 @@ int main(int argc, char* argv[])
     {
         const char* chDevice = "ADLINK MCM 204 Device";
         Corelib* equipment = Corelib::getInstance();
-        vector<ST_DEV_LIST*> stDev = equipment->getDeviceList();  
+        stDev = equipment->getDeviceList();  
 
         if (stDev.empty()) {
             cout << "There are no available device for manipulation." << endl;
@@ -77,9 +79,10 @@ int main(int argc, char* argv[])
                 continue;
             }*/
 
-            sprintf_s(filename[devIndex], FILE_NAME_MAX, "Data_%s.txt", stDev[i]->chAliasName);
-
-            cout << "(" << i << ")" << "aliasName: " << filename[devIndex] << endl;
+            
+            sprintf_s(pfilename[devIndex], FILE_NAME_MAX, "Performance_%s.csv", stDev[i]->chAliasName);
+            
+            cout << "(" << i << ")" << "aliasName: " << pfilename[devIndex] << endl;
             th[devIndex] = std::thread(ThreadRoutine, devIndex, stDev[i]->chAliasName);
             devIndex++;
             if (devIndex >= DEVICE_MAX) {
@@ -111,9 +114,10 @@ void ThreadRoutine(int devIndex, const char* aliasName)
 {
     I_AITask* aiTask;
     I_Device* dev;
+    I_AOTask* aoTask;
     uint32_t samplecount=1024;
-    double samplerate=1000;
-    printf("[%d] %s\n", devIndex, aliasName);
+    double samplerate=2000;
+    //printf("[%d] %s\n", devIndex, aliasName);
 
     // Step 1: open a device byz alias.
     // About the alias please to reference the application ACE in windows platform.
@@ -122,43 +126,66 @@ void ThreadRoutine(int devIndex, const char* aliasName)
         cout << "dev == NULL" << endl;
         return;
     }
-    if (strcmp(aliasName, "ADLINK MCM 204 Device") != 0) {
-        samplerate = 128000;
-        samplecount = samplerate / 2;
+    if (strcmp(aliasName, "USB-2405-2-0") == 0) {   ///ADLINK MCM 204 Device
+        samplerate = 100000;
+        samplecount = (uint32_t)samplerate / 2;
+        printf("Alisa Name :%s _USB-2405-2-0 sampling rate and count\n", aliasName);
             }
-    if (strcmp(aliasName, "ADLINK MCM 216 Device") != 0) {
+    if (strncmp(aliasName, "MCM-216",7) == 0) {
+        samplerate =100000;
+        samplecount = (uint32_t)(samplerate / 2);
+        printf("Alisa Name :%s _MCM-216 sampling rate and count\n", aliasName);
+   }
+    if (strcmp(aliasName, "ADLINK MCM 218 Device") == 0) {
         samplerate = 100000;
         samplecount = samplerate / 2;
     }
-    if (strcmp(aliasName, "ADLINK MCM 218 Device") != 0) {
-        samplerate = 100000;
-        samplecount = samplerate / 2;
-    }
-    fp[devIndex].open(filename[devIndex], ios::out); // append: ios::out|ios::app
-    if (!fp[devIndex]) {//if open file is false:fp = 0; is successful:fp != 0
-        cout << "Fail to open file: " << filename[devIndex] << endl;
+    
+    fperform[devIndex].open(pfilename[devIndex], ios::out); // append: ios::out|ios::app
+    if (!fperform[devIndex]) {//if open file is false:fp = 0; is successful:fp != 0
+        cout << "Fail to open file: " << pfilename[devIndex] << endl;
         Corelib::getInstance()->closeDevice(aliasName);
         return;
     }
-
     // Step 2: Get the task object.
     // Get the AI Task to configure taks property and perform analog input acquisition.
     aiTask = dev->getAITask();
-    if (aiTask != NULL)
-        AI_AsyncOneshot_Raw_Data(aiTask, devIndex, samplerate, samplecount);
+    aoTask = dev->getAOTask();
+    if (aoTask != NULL)
+        AO_Static(aoTask);
     else
         cout << "The task is not support." << "\n";
 
-    fp[devIndex].close();
+    if (aiTask != NULL)
+        for(int i=0;i< Loop;i++)
+        {
+          sprintf_s(filename[devIndex], FILE_NAME_MAX, "Data_%s_%d.csv", stDev[devIndex]->chAliasName, i);
+          cout << "(" << i << ")" << "aliasName: " << filename[devIndex] << endl;
+          fp[devIndex].open(filename[devIndex], ios::out); // append: ios::out|ios::app
+            if (!fp[devIndex]) {//if open file is false:fp = 0; is successful:fp != 0
+                cout << "Fail to open file: " << filename[devIndex] << endl;
+                Corelib::getInstance()->closeDevice(aliasName);
+                return;
+            }      
+        AI_AsyncOneshot_Raw_Data(aiTask, devIndex, samplerate, samplecount,i);
+        fp[devIndex].close();
+        printf("Loop Index %d \n", i);
+        }
+    else
+        cout << "The task is not support." << "\n";
 
+   
+    fperform[devIndex].close();
     Corelib::getInstance()->closeDevice(aliasName);
 }
 
-void AI_AsyncOneshot_Raw_Data(I_AITask* aiTask, int devIndex, double samplerate, uint32_t samplecount)
+void AI_AsyncOneshot_Raw_Data(I_AITask* aiTask, int devIndex, double samplerate, uint32_t samplecount,uint32_t loopindex)
 {
     // Step3. Set the 'Channel' property to decide which channel will be enable to scan analog samples.
+    LARGE_INTEGER freq, start_count, start_count_d, current_count_c, current_count;
+    double take_msec, take_msec_c;
     int channelCount = aiTask->getChannelSize();
-    for (int i = 0; i < channelCount; i++)
+    for (int i = 0; i < 1; i++)
     {
         aiTask->getChannelByIdx(i)->enableChannel();
     }
@@ -169,7 +196,7 @@ void AI_AsyncOneshot_Raw_Data(I_AITask* aiTask, int devIndex, double samplerate,
     timing->setSampleRatePerChannel(samplerate);
     timing->setSampleCountPerChannel(samplecount);
     timing->setSampleMode(SampleModeEnum::FINITE);
-
+    cout << timing->getActualSampleRatePerChannel() << endl;
     // Step5  Set the 'Trigger' object to decide the acquisition operation will perform in which trigger condition.
     I_AITrigger* trigger = aiTask->getTrigger();
 
@@ -184,33 +211,68 @@ void AI_AsyncOneshot_Raw_Data(I_AITask* aiTask, int devIndex, double samplerate,
 
     // Step7. Start acquision task.
     aiTask->asyncStart(10); // Timeout 10 Sec
-        
+    QueryPerformanceFrequency(&freq);
+    QueryPerformanceCounter(&start_count);
     printf("[%d] Check Ready...\n", devIndex);
     do {
         DELAY_10_MSEC
     } while ((!_kbhit()) && !aiTask->isTaskFinish()); // Check task done and data is ready or abort task acquisition.
+   QueryPerformanceCounter(&current_count_c);
+    take_msec_c = ((double)(current_count_c.QuadPart - start_count.QuadPart)) / freq.QuadPart * 1000;
+    fperform[devIndex] << take_msec_c << ",\n";
+    printf("\nThe time taken for Data acquisition is: %4.3f msec\n", take_msec_c);
     printf("[%d] Data Ready...\n", devIndex);
 
     // Stop acquisition task.
     aiTask->asyncStop(); 
+    DataProcess(aiTask, devIndex, loopindex,samplecount);
 
-
-    if (aiTask->isTaskFinish())
-    {
-        cout << "aiTask->isTaskFinish()" << endl;
-        DataProcess(aiTask, devIndex);
-    }
-    else
-    {
-        cout << "Abort acquisition!!\n";
-    }
 }
-void DataProcess(I_AITask* aiTask, int Device)
+void AO_Static(I_AOTask* aoTask)
 {
     try
     {
-        int channelCount = aiTask->getChannelSize();
-        int enablechcount = 0;
+        int aochannelCount = aoTask->getChannelSize();
+        //cout << "AO:" << channelCount << endl;
+        for (int i = 0; i < aochannelCount; i++)
+        {
+            aoTask->getChannelByIdx(i)->enableChannel();
+        }
+        aoTask->downloadConfigurationToDevice();
+
+        int nloop = 0;
+
+        for (int i = 0; i < aochannelCount; i++)
+        {
+
+            I_AOChannel* channel = aoTask->getChannelByIdx(i);
+            if (channel->isChannelEnable())
+            {
+                if(i==0)
+                {
+                channel->getSinglePointData()->setScaledData(4.0);
+                cout << "AO:" << i << endl;
+                }
+                else
+                {
+                 channel->getSinglePointData()->setScaledData(6.0);
+                 cout << "AO:" << i << endl;
+                }
+            }
+        }
+    }
+    catch (const char* msg)
+    {
+        cout << msg;
+    }
+}
+void DataProcess(I_AITask* aiTask, int Device, uint32_t loopindex, uint32_t samplecount)
+{
+    try
+    {
+        int enablechcount=0;
+        int channelCount= aiTask->getChannelSize();
+       
         for (int i = 0; i < channelCount; i++)
         {
             I_AIChannel* channel = aiTask->getChannelByIdx(i);
@@ -219,8 +281,8 @@ void DataProcess(I_AITask* aiTask, int Device)
                 enablechcount++;
             }
         }
-
-        double* scaledDataBuff = (double*)malloc(sizeof(double) * enablechcount * SAMPLE_COUNT);
+        
+        double* scaledDataBuff = (double*)malloc(sizeof(double) * enablechcount * samplecount);
         unsigned int chcount = 0;
         for (int i = 0; i < channelCount; i++)
         {
@@ -239,27 +301,27 @@ void DataProcess(I_AITask* aiTask, int Device)
                 double* chdata = channel->getBuffer()->getScaledDataBuffer();
                 for (int point = 0; point < channel->getBuffer()->getBufferLength(); point++)
                 {
-                    *(scaledDataBuff + chcount * (channel->getBuffer()->getBufferLength()) + point) = chdata[point];
+                    *(scaledDataBuff + chcount * (channel->getBuffer()->getBufferLength())+ point) = chdata[point];
                 }
                 chcount++;
             }
         }
-        for (int point = 0; point < SAMPLE_COUNT; point++)
+       
+        for (int point = 0; point < samplecount; point++)
         {
             for (int i = 0; i < enablechcount; i++)
             {
                 if (i == enablechcount - 1)
                 {
-                    fp[Device] << *(scaledDataBuff + i * (SAMPLE_COUNT)+point) << "\n";
+                    fp[Device] << *(scaledDataBuff + i * (samplecount)+point) << ",\n";
                 }
                 else
                 {
-                    fp[Device] << *(scaledDataBuff + i * (SAMPLE_COUNT)+point) << ",";
+                    fp[Device] << *(scaledDataBuff + i * (samplecount)+point) << ",";
                 }
             }
         }
         free(scaledDataBuff);
-
     }
     catch (char* msg)
     {

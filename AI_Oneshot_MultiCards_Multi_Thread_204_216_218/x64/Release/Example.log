@@ -1,10 +1,13 @@
 ﻿  Example.cpp
-C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(127,34): warning C4244: '=': 將 'double' 轉換為 'uint32_t'，由於類型不同，可能導致資料遺失
-C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(131,34): warning C4244: '=': 將 'double' 轉換為 'uint32_t'，由於類型不同，可能導致資料遺失
-C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(135,34): warning C4244: '=': 將 'double' 轉換為 'uint32_t'，由於類型不同，可能導致資料遺失
-C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(240,43): warning C4018: '<': signed/unsigned 不相符
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(141,34): warning C4244: '=': 將 'double' 轉換為 'uint32_t'，由於類型不同，可能導致資料遺失
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(186,12): warning C4101: 'take_msec': 未參考的區域變數
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(185,38): warning C4101: 'start_count_d': 未參考的區域變數
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(185,70): warning C4101: 'current_count': 未參考的區域變數
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(302,43): warning C4018: '<': signed/unsigned 不相符
+C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(310,35): warning C4018: '<': signed/unsigned 不相符
   正在產生程式碼
-  Previous IPDB not found, fall back to full compilation.
-  All 208 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  2 of 224 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   已完成程式碼產生
   Example.vcxproj -> C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\x64\Release\Example.exe
