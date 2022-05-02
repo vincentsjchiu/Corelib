@@ -133,7 +133,7 @@ void ThreadRoutine(int devIndex, const char* aliasName)
             }
     if (strncmp(aliasName, "MCM-216",7) == 0) {
         samplerate =100000;
-        samplecount = (uint32_t)(samplerate / 2);
+        samplecount = (uint32_t)(samplerate/10);
         printf("Alisa Name :%s _MCM-216 sampling rate and count\n", aliasName);
    }
     if (strcmp(aliasName, "ADLINK MCM 218 Device") == 0) {
@@ -185,7 +185,7 @@ void AI_AsyncOneshot_Raw_Data(I_AITask* aiTask, int devIndex, double samplerate,
     LARGE_INTEGER freq, start_count, start_count_d, current_count_c, current_count;
     double take_msec, take_msec_c;
     int channelCount = aiTask->getChannelSize();
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 3; i++)
     {
         aiTask->getChannelByIdx(i)->enableChannel();
     }

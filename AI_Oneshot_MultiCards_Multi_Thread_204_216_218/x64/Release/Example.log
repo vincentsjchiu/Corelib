@@ -6,8 +6,8 @@ C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thre
 C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(302,43): warning C4018: '<': signed/unsigned 不相符
 C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\Example.cpp(310,35): warning C4018: '<': signed/unsigned 不相符
   正在產生程式碼
-  2 of 224 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+  1 of 224 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   已完成程式碼產生
   Example.vcxproj -> C:\ADLINK\Corelib\Samples\MCM_Corelib_User_Test\AI_Oneshot_MultiCards_Multi_Thread_204_216_218\x64\Release\Example.exe
